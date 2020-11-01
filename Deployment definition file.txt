@@ -1,0 +1,60 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+        name: appdeployment
+        labels:
+                author: omkar
+spec:
+        replicas: 3
+        selector:
+                matchLabels:
+                        author: omkar
+        template:
+                metadata:
+                        labels:
+                                author: omkar
+
+                spec:
+                        containers:
+                                - name: myspringapp
+                                  image: omkarc392/repo:springbootapp
+                                  ports:
+                                  - containerPort: 8080
+                                    hostPort: 30010
+
+                                  livenessProbe:
+                                    httpGet:
+                                      path: /actuator/health
+                                      port: 8080
+                                    initialDelaySeconds: 20
+                                    periodseconds: 20
+
+                                  readinessProbe:
+                                    httpGet:
+                                      path: /actuator/health
+                                      port: 8080
+                                    initialDelaySeconds: 20
+                                    periodseconds: 20
+
+                        restartPolicy: Always
+...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
